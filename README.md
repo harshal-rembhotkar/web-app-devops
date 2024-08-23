@@ -1,1 +1,1 @@
-# Devopsified a web-app project.
+# Devopsified a project.
