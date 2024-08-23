@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+
+    - name: Build with Maven
+      run: mvn clean package -DskipTests=true
+
+    - name: Build Docker image
+      run: docker build -t harshalr/web-app:latest .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Minikube
+      uses: manusa/actions-setup-minikube@v2
+      with:
+        minikube-version: 'latest'
+        kubernetes-version: 'v1.26.0'
+        driver: docker
+
+    - name: Minikube status
+      run: minikube status
+
+    - name: Use Minikube Docker daemon
+      run: eval $(minikube -p minikube docker-env)
+
+   # - name: Build Docker image in Minikube
+   #   run: docker build -t java-web-app:latest .
+
+    - name: Apply K8s Deployment
+      run: kubectl apply -f manifests/deployment.yaml
+
+    - name: Apply K8s Svc
+      run: kubectl apply -f manifests/service.yaml
+
+    - name: Get Minikube service URL
+      run: minikube service webapp-service --url
