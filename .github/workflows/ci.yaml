@@ -40,7 +40,7 @@ jobs:
       uses: manusa/actions-setup-minikube@v2.11.0
       with:
         minikube-version: 'v1.32.0'
-        github token: ${{ secrets.GITHUBTOKEN }}
+        github token: ${{ secrets.MINIKUBE_TOKEN }}
         driver: docker
 
     - name: Minikube status
