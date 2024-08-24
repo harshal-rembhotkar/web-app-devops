@@ -19,7 +19,6 @@ jobs:
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin' # Options include: 'temurin', 'zulu', 'adopt', etc.
         java-version: '17'
 
     - name: Build with Maven
@@ -37,20 +36,20 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Setup Minikube
-      uses: manusa/actions-setup-minikube@v1
+      uses: manusa/actions-setup-minikube@v2.11.0
       with:
-        minikube-version: 'latest'
-        kubernetes-version: 'v1.32.0'
+        minikube-version: 'v1.33.0'
+        kubernetes-version: 'v1.30.0'
+        github token: ${{ secrets.GITHUBTOKEN }}
         driver: docker
 
     - name: Minikube status
       run: minikube status
 
-    - name: Use Minikube Docker daemon
-      run: eval $(minikube -p minikube docker-env)
+   # - name: Use Minikube Docker daemon
+    #  run: eval $(minikube -p minikube docker-env)
 
-   # - name: Build Docker image in Minikube
-   #   run: docker build -t java-web-app:latest .
+
 
     - name: Apply K8s Deployment
       run: kubectl apply -f manifests/deployment.yaml
