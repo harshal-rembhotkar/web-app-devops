@@ -46,5 +46,5 @@ jobs:
     - name: Apply K8s Svc
       run: kubectl apply -f manifests/service.yaml
 
-   # - name: Get Minikube service URL
+   # - name: Get Minikube SVC URL
    #  run: minikube service webapp-service --url
