@@ -20,6 +20,6 @@ kubectl create namespace prometheus-monitor
  helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
 ```
 5. Port forward Grafana Dashboard SVC to access the prometheus metrics:
-6. ```
+ ```
     kubectl port-forward svc/prometheus-grafana 3000:80 -n prometheus-monitor
 ```
