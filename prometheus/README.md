@@ -17,7 +17,7 @@ kubectl create namespace prometheus-monitor
 
 4. Install prometheus operator on cluster using helm:
 ```
- helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+ helm install prometheus prometheus-community/kube-prometheus-stack -n prometheus-monitor
 ```
 5. Port forward Grafana Dashboard SVC to access the prometheus metrics:
  ```
